@@ -1,7 +1,16 @@
-﻿@{
+﻿@model Contact
+@{
     ViewData["Title"] = "About";
     Layout = "_Layout";
 }
+
+<style>
+    .text-invalid {
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+        color: #dc3545;
+    }
+</style>
 
 <!-- Page Header-->
 <header class="masthead" style="background-image: url('../../img/contact-bg.jpg')">
@@ -30,27 +39,27 @@
                     <!-- To make this form functional, sign up at-->
                     <!-- https://startbootstrap.com/solution/contact-forms-->
                     <!-- to get an API token!-->
-                    <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <form method="post" asp-action="Contact" asp-controller="Home">
+                        <div asp-validation-summary="ModelOnly"></div>
                         <div class="form-floating">
-                            <input class="form-control" id="name" name="Name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                            <label for="name">Name</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            <input class="form-control" id="name" asp-for="Name" type="text" placeholder="Enter your name..." />
+                            <label asp-for="Name"></label>
+                            <span class="text-invalid" asp-validation-for="Name"></span>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="email" name="Email" type="email" placeholder="Enter your email..." data-sb-validations="required,email" />
-                            <label for="email">Email address</label>
-                            <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                            <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            <input class="form-control" id="email" asp-for="Email" type="text" placeholder="Enter your email..." />
+                            <label asp-for="Email"></label>
+                            <span class="text-invalid" asp-validation-for="Email"></span>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="subject" name="Subject" type="text" placeholder="Enter your subject..." data-sb-validations="required" />
-                            <label for="phone">Subject</label>
-                            <div class="invalid-feedback" data-sb-feedback="subject:required">A subject number is required.</div>
+                            <input class="form-control" id="subject" asp-for="Subject" type="text" placeholder="Enter your subject..." />
+                            <label asp-for="Subject"></label>
+                            <span class="text-invalid" asp-validation-for="Subject"></span>
                         </div>
                         <div class="form-floating">
-                            <textarea class="form-control" id="message" name="Message" placeholder="Enter your message here..." style="height: 12rem" data-sb-validations="required"></textarea>
-                            <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            <textarea class="form-control" id="message" asp-for="Message" placeholder="Enter your message here..." style="height: 12rem"></textarea>
+                            <label asp-for="Message"></label>
+                            <span class="text-invalid" asp-validation-for="Message"></span>
                         </div>
                         <br />
                         <!-- Submit success message-->
@@ -78,3 +87,9 @@
         </div>
     </div>
 </main>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

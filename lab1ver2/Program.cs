@@ -1,15 +1,24 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using InvertedSoftware.PLogger.Core;
 using lab1ver2;
 using lab1ver2.Data;
+using lab1ver2.Models;
 using lab1ver2.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
@@ -35,6 +44,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IValidator<Contact>, ContactValidator>();
 
 var settings = new PLoggerSettings(builder.Configuration);
 

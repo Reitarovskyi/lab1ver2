@@ -1,4 +1,7 @@
-﻿using lab1ver2.Data;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using FluentValidation.Results;
+using lab1ver2.Data;
 using lab1ver2.Models;
 using lab1ver2.Services;
 using Microsoft.AspNetCore.Localization;
@@ -13,12 +16,14 @@ namespace lab1ver2.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
+        private readonly IValidator<Contact> _validator;
 
-        public HomeController(ILogger<HomeController> logger, IEmailSender emailSender, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, IEmailSender emailSender, ApplicationDbContext context, IValidator<Contact> validator)
         {
             _logger = logger;
             _emailSender = emailSender;
             _context = context;
+            _validator = validator;
         }
 
         public IActionResult Index()
@@ -40,9 +45,12 @@ namespace lab1ver2.Controllers
         [HttpPost]
         public async Task<IActionResult> Contact(Contact contact)
         {
-            if (!ModelState.IsValid)
+            ValidationResult result = _validator.Validate(contact);
+            
+            if (!result.IsValid)
             {
-                return View("Error");
+                result.AddToModelState(ModelState);
+                return View(contact);
             }
 
             await _emailSender.SendEmailAsync(contact.Name, contact.Email, contact.Subject, contact.Message);
