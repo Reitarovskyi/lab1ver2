@@ -1,0 +1,10 @@
+﻿@model IEnumerable<NavbarItem>
+
+<ul class="navbar-nav">
+    @foreach (var item in Model)
+    {
+            <li class="nav-item @(item.IsActive ? "active" : "")">
+                <a class="nav-link" asp-controller="@item.Controller" asp-action="@item.Action">@item.Text</a>
+            </li>
+    }
+</ul>

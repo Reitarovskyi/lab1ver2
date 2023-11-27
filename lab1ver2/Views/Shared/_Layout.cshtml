@@ -26,10 +26,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-action="Index" asp-controller="Home">@SharedLocalizer["posts"]</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-action="About" asp-controller="Home">@SharedLocalizer["about"]</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-action="Contact" asp-controller="Home">@SharedLocalizer["contact"]</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-action="Index" asp-controller="Posts">@SharedLocalizer["post manager"]</a></li>
+                    @await Html.PartialAsync("_NavbarPartial")
                 </ul>
             </div>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
